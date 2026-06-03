@@ -11,6 +11,8 @@
     "test:mock": "newman run postman/collections/FIT4110_lab03_iot_ingestion.postman_collection.json -e postman/environments/FIT4110_lab03_mock.postman_environment.json --reporters cli,junit --reporter-junit-export reports/newman-report-mock.xml",
     "test:local": "newman run postman/collections/FIT4110_lab03_iot_ingestion.postman_collection.json -e postman/environments/FIT4110_lab03_local.postman_environment.json --reporters cli,junit --reporter-junit-export reports/newman-report-local.xml",
     "test:html": "newman run postman/collections/FIT4110_lab03_iot_ingestion.postman_collection.json -e postman/environments/FIT4110_lab03_mock.postman_environment.json --reporters cli,htmlextra --reporter-htmlextra-export reports/newman-report.html",
+    "test:vision:mock": "newman run postman/collections/FIT4110_lab03_core_ai-vision.postman_collection.json -e postman/environments/FIT4110_lab03_core_mock.postman_environment.json --reporters cli,htmlextra,junit --reporter-htmlextra-export reports/newman-report-ai-vision.html --reporter-junit-export reports/newman-report-ai-vision.xml",
+    "test:vision:local": "newman run postman/collections/FIT4110_lab03_core_ai-vision.postman_collection.json -e postman/environments/FIT4110_lab03_core_local.postman_environment.json --reporters cli,htmlextra,junit --reporter-htmlextra-export reports/newman-report-ai-vision-local.html --reporter-junit-export reports/newman-report-ai-vision-local.xml",
     "test:ci": "npm run lint:contracts && npm run test:mock"
   },
   "devDependencies": {

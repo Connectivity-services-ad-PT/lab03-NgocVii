@@ -1,6 +1,12 @@
-ID,Folder,Endpoint,Method,Scenario,Input file/body,Expected status,Expected response check,Type,Pass/Fail,Evidence
-TC01,Functional,/health,GET,Service is alive,-,200,status=ok,functional,,
-TC02,Functional,/readings,POST,Create reading happy path,mock-data/sensor-reading-valid.json,201,"has reading_id, accepted=true",functional,,
-TC03,Negative,/readings,POST,Missing device_id,mock-data/sensor-reading-invalid-missing-device.json,400,Problem Details,negative,,
-TC04,Auth,/readings,POST,Missing token,mock-data/sensor-reading-valid.json,401,Problem Details,auth,,
-TC05,Boundary,/readings,POST,High temperature boundary,mock-data/sensor-reading-boundary.json,201/400,documented behavior,boundary,,
+Test Case ID,Test Case Name,Endpoint,Method,Input Data,Expected Status,Expected Response,Test Type
+TC-FUNC-01,GET /health - Health check,/health,GET,{},200,status=ok,Functional
+TC-FUNC-02,POST face-match - Match found,/vision/face-match,POST,"{""imageUrl"": ""https://valid.url""}",200,"userId != null, confidence between 0-1",Functional
+TC-FUNC-03,POST face-match - No match,/vision/face-match,POST,"{""imageUrl"": ""https://unknown.url""}",200,"userId = null, confidence < 0.5",Functional
+TC-FUNC-04,GET detection by ID - Success,/vision/detections/{id},GET,{},200,detectionId matches request,Functional
+TC-AUTH-01,POST face-match - No token,/vision/face-match,POST,"{""imageUrl"": ""...""}",401,Unauthorized error,Auth
+TC-NEG-01,POST face-match - Missing imageUrl,/vision/face-match,POST,{},400/422,ProblemDetails with detail message,Negative
+TC-NEG-02,POST face-match - Invalid URL format,/vision/face-match,POST,"{""imageUrl"": ""not-a-url""}",400,Validation error,Negative
+TC-BOUND-01,GET recent detections - Limit 50,/vision/results/recent?limit=50,GET,{},200,items array length ≤ 50,Boundary
+TC-BOUND-02,GET recent detections - Default limit,/vision/results/recent,GET,{},200,items array has default count,Boundary
+TC-SMOKE-01,Complete face recognition flow,/vision/face-match,POST,"{""imageUrl"": ""...""}",200,Response includes confidence,Consumer Smoke
+TC-LOCAL-01,Response time on local service,/vision/face-match,POST,"{""imageUrl"": ""...""}",200,responseTime < 3000ms,Local Only

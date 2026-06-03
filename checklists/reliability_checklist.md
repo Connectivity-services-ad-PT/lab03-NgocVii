@@ -1,48 +1,25 @@
-# Reliability Checklist — FIT4110 Lab 03
+# Reliability Checklist - Core Business → AI Vision
 
-Điền checklist này trước khi nộp Lab 03.
+## Thông tin chung
+- **Consumer:** Core Business (B6)
+- **Provider:** AI Vision (B4)
+- **Ngày:** 03/06/2026
 
-## 1. Functional tests
+## Checklist
 
-- [ ] Có test cho endpoint health.
-- [ ] Có test happy path cho endpoint chính.
-- [ ] Có kiểm tra status code 2xx.
-- [ ] Có kiểm tra field quan trọng trong response.
-- [ ] Có ít nhất 1 test đọc dữ liệu danh sách hoặc chi tiết.
+| Tiêu chí | Trạng thái | Ghi chú / Bằng chứng |
+|----------|-----------|----------------------|
+| **Timeout handling** | ✅ Đạt | Negotiation Issue #6: timeout 3 giây |
+| **Fail-closed policy** | ✅ Đạt | Khi timeout, Core từ chối truy cập (Issue #6) |
+| **Correlation ID** | ✅ Đạt | Header `X-Correlation-Id` bắt buộc (Issue #5) |
+| **Idempotency** | ✅ Đạt | Dùng correlationId để trace và deduplicate |
+| **Retry strategy** | ⏳ Chưa xác định | Sẽ thống nhất trong Lab 04 |
+| **Rate limiting** | ⏳ Chưa có | Cần bổ sung response 429 |
+| **Health check** | ✅ Đạt | Endpoint `GET /health` hoạt động |
+| **Error response format** | ✅ Đạt | Dùng ProblemDetails (RFC 7807) |
+| **Image size limit** | ✅ Đạt | 4MB (Issue #4) |
+| **URL length limit** | ✅ Đạt | 2048 characters (Issue #4) |
+| **DetectionId format** | ✅ Đạt | UUID format (Issue #3) |
 
-## 2. Auth tests
-
-- [ ] Có test thiếu token.
-- [ ] Có test sai token hoặc token rỗng.
-- [ ] Endpoint public được khai báo rõ nếu không cần auth.
-- [ ] Test thể hiện đúng expected status 401/403.
-
-## 3. Negative tests
-
-- [ ] Có test thiếu field bắt buộc.
-- [ ] Có test sai kiểu dữ liệu.
-- [ ] Có test sai enum hoặc giá trị ngoài miền.
-- [ ] Lỗi trả về theo cùng một error model.
-
-## 4. Boundary tests
-
-- [ ] Có test min/max hoặc dữ liệu sát ngưỡng.
-- [ ] Có test limit/pagination nếu endpoint có danh sách.
-- [ ] Có test payload lớn hoặc metadata thiếu.
-- [ ] Có ghi chú kỳ vọng xử lý dữ liệu biên.
-
-## 5. Reliability tests cơ bản
-
-- [ ] Có kiểm tra response time.
-- [ ] Có mô tả timeout mong muốn.
-- [ ] Có test hoặc ghi chú retry/idempotency nếu phù hợp.
-- [ ] Có consumer-side smoke test với ít nhất 1 mock của nhóm khác.
-
-## 6. Evidence
-
-- [ ] Collection export JSON.
-- [ ] Environment mock export JSON.
-- [ ] Environment local export JSON.
-- [ ] Newman report XML/HTML.
-- [ ] Test-case matrix đã điền.
-- [ ] Biên bản handshake đã điền.
+## Kết luận
+API đạt độ tin cậy cơ bản, có thể tích hợp giữa Core Business và AI Vision.
